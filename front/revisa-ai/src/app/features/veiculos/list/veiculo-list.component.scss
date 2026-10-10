@@ -1,0 +1,25 @@
+.card {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.nome {
+  display: block;
+  font-size: 1.05em;
+  margin-bottom: 6px;
+}
+
+.linha-info {
+  display: flex;
+  justify-content: space-between;
+  color: #555;
+  font-size: 0.9em;
+
+  span {
+    flex: 1;
+  }
+
+  span:last-child {
+    text-align: right;
+  }
+}

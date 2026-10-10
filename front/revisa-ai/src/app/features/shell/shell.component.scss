@@ -1,0 +1,54 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topo {
+  justify-content: space-between;
+
+  .titulo {
+    font-size: 1.1em;
+    font-weight: 500;
+  }
+}
+
+.conteudo {
+  flex: 1;
+  padding-bottom: 70px;
+}
+
+.fab {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 10;
+}
+
+.tabs {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  border-top: 1px solid #ddd;
+  padding: 8px 0;
+  z-index: 10;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #888;
+    font-size: 0.75em;
+    gap: 2px;
+
+    &.ativo {
+      color: #3f51b5;
+      font-weight: bold;
+    }
+  }
+}

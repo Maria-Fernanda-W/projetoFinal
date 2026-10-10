@@ -1,0 +1,41 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+}
+
+//.shell {
+//  display: flex;
+//  flex-direction: column;
+//  min-height: 100vh;
+//}
+//
+//.conteudo {
+//  flex: 1;
+//  padding-bottom: 60px;
+//}
+//
+//.tabs {
+//  position: fixed;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+//  display: flex;
+//  justify-content: space-around;
+//  background: white;
+//  border-top: 1px solid #ddd;
+//  padding: 10px 0;
+//
+//  a {
+//    text-decoration: none;
+//    color: #888;
+//    font-size: 0.9em;
+//
+//    &.ativo {
+//      color: #333;
+//      font-weight: bold;
+//    }
+//  }
+//}

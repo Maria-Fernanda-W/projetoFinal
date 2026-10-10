@@ -1,0 +1,49 @@
+<div class="container">
+  <h1>Criar Conta</h1>
+
+  @if (!sucesso) {
+    <form #form="ngForm" (ngSubmit)="cadastrar(form)">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="nome" name="nome" required #nomeRef="ngModel">
+        @if (nomeRef.invalid && (nomeRef.touched || form.submitted)) {
+          <mat-error>Campo obrigatório</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" required email #emailRef="ngModel">
+        @if (emailRef.invalid && (emailRef.touched || form.submitted)) {
+          <mat-error>
+            @if (emailRef.errors?.['required']) { Campo obrigatório }
+            @if (emailRef.errors?.['email']) { E-mail inválido }
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" [(ngModel)]="senha" name="senha" required minlength="6" #senhaRef="ngModel">
+        @if (senhaRef.invalid && (senhaRef.touched || form.submitted)) {
+          <mat-error>
+            @if (senhaRef.errors?.['required']) { Campo obrigatório }
+            @if (senhaRef.errors?.['minlength']) { A senha deve ter no mínimo 6 caracteres }
+          </mat-error>
+        }
+      </mat-form-field>
+
+      @if (erro) {
+        <p class="erro">{{ erro }}</p>
+      }
+
+      <button mat-filled-button color="primary" type="submit">Cadastrar</button>
+    </form>
+
+    <p class="link-voltar">
+      Já tem conta? <a routerLink="/login">Entrar</a>
+    </p>
+  } @else {
+    <p>Conta criada! Redirecionando para o login...</p>
+  }
+</div>

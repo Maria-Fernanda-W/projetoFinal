@@ -1,0 +1,18 @@
+<div class="container">
+  @if (veiculos.length === 0) {
+    <p>Nenhum veículo cadastrado</p>
+  }
+
+  @for (v of veiculos; track v.id) {
+    <mat-card class="card" (click)="abrir(v)">
+      <mat-card-content>
+        <strong class="nome">{{ v.nome }}</strong>
+        <div class="linha-info">
+          <span>{{ v.ano }}</span>
+          <span>{{ v.placa }}</span>
+          <span>{{ formatarKm(v.quilometragemAtual) }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

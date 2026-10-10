@@ -1,0 +1,25 @@
+<div class="container">
+  <mat-card class="card-historico">
+    <mat-card-content>
+      <h4>Histórico de Manutenções</h4>
+
+      @if (manutencoes.length === 0) {
+        <p>Nenhuma manutenção registrada ainda.</p>
+      }
+
+      @for (m of (manutencoes | slice: 0:5); track m.id) {
+        <div class="item" (click)="editar(m)">
+          <span class="veiculo">{{ m.veiculoNome }}</span>
+          <div class="linha-topo">
+            <strong>{{ m.nome }}</strong>
+            <span>{{ formatarValor(m.valor) }}</span>
+          </div>
+          <div class="linha-sub">
+            <span>{{ m.tipoManutencaoNome }}</span>
+            <span>{{ formatarData(m.dataRealizacao) }}</span>
+          </div>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

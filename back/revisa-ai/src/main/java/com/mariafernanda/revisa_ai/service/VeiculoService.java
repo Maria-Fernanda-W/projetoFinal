@@ -30,6 +30,7 @@ public class VeiculoService {
 
         Veiculo veiculo = new Veiculo();
         veiculo.setUsuario(usuario);
+        veiculo.setNome(dto.nome());
         veiculo.setPlaca(dto.placa());
         veiculo.setMarca(dto.marca());
         veiculo.setModelo(dto.modelo());
@@ -42,7 +43,7 @@ public class VeiculoService {
         historico.setDataRegistro(LocalDateTime.now());
         historicoRepository.save(historico);
 
-        return new VeiculoRespostaDTO(salvo.getId(), salvo.getPlaca(), salvo.getMarca(),
+        return new VeiculoRespostaDTO(salvo.getId(), salvo.getNome(), salvo.getPlaca(), salvo.getMarca(),
                 salvo.getModelo(), salvo.getAno(), dto.quilometragemInicial());
     }
 
@@ -52,6 +53,7 @@ public class VeiculoService {
 
         validarPropriedade(veiculo, usuarioId);
 
+        veiculo.setNome(dto.nome());
         veiculo.setPlaca(dto.placa());
         veiculo.setMarca(dto.marca());
         veiculo.setModelo(dto.modelo());
@@ -59,13 +61,26 @@ public class VeiculoService {
         Veiculo salvo = veiculoRepository.save(veiculo);
 
         Integer kmAtual = buscarQuilometragemAtual(id);
-        return new VeiculoRespostaDTO(salvo.getId(), salvo.getPlaca(), salvo.getMarca(),
+        return new VeiculoRespostaDTO(salvo.getId(), salvo.getNome(), salvo.getPlaca(), salvo.getMarca(),
                 salvo.getModelo(), salvo.getAno(), kmAtual);
     }
 
-    public List<VeiculoRespostaDTO> listarMeusVeiculos(Long usuarioId) {
-        return veiculoRepository.findByUsuarioId(usuarioId).stream()
-                .map(v -> new VeiculoRespostaDTO(v.getId(), v.getPlaca(), v.getMarca(),
+    public void deletar(Long usuarioId, Long id) {
+        Veiculo veiculo = veiculoRepository.findById(id)
+                .orElseThrow(() -> new VeiculoNaoEncontradoException(id));
+
+        validarPropriedade(veiculo, usuarioId);
+
+        veiculoRepository.delete(veiculo);
+    }
+
+    public List<VeiculoRespostaDTO> listarPorUsuario(Long usuarioIdAutenticado, Long usuarioIdConsultado) {
+        if (!usuarioIdAutenticado.equals(usuarioIdConsultado)) {
+            throw new AcessoNegadoException();
+        }
+
+        return veiculoRepository.findByUsuarioId(usuarioIdConsultado).stream()
+                .map(v -> new VeiculoRespostaDTO(v.getId(), v.getNome(), v.getPlaca(), v.getMarca(),
                         v.getModelo(), v.getAno(), buscarQuilometragemAtual(v.getId())))
                 .toList();
     }

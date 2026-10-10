@@ -1,0 +1,33 @@
+<div class="container">
+  <h1>RevisaAi</h1>
+  <form #form="ngForm" (ngSubmit)="entrar(form)">
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" [(ngModel)]="email" name="email" required email #emailRef="ngModel">
+      @if (emailRef.invalid && (emailRef.touched || form.submitted)) {
+        <mat-error>
+          @if (emailRef.errors?.['required']) { Campo obrigatório }
+          @if (emailRef.errors?.['email']) { E-mail inválido }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" [(ngModel)]="senha" name="senha" required #senhaRef="ngModel">
+      @if (senhaRef.invalid && (senhaRef.touched || form.submitted)) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    @if (erro) {
+      <p class="erro">{{ erro }}</p>
+    }
+
+    <button mat-filled-button color="primary" type="submit">Entrar</button>
+  </form>
+
+  <p class="link-voltar">
+    Não tem conta? <a routerLink="/cadastro">Criar Conta</a>
+  </p>
+</div>

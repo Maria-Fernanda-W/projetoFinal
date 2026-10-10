@@ -1,0 +1,47 @@
+<app-form-header [titulo]="veiculo?.nome ?? 'Veículo'" [voltarPara]="tabMemory.obterUltimaTab()"></app-form-header>
+
+<div class="container">
+  @if (veiculo) {
+    <mat-card class="card-veiculo">
+      <mat-card-content>
+        <div class="linha"><span class="rotulo">Placa</span><span>{{ veiculo.placa }}</span></div>
+        <div class="linha"><span class="rotulo">Marca</span><span>{{ veiculo.marca }}</span></div>
+        <div class="linha"><span class="rotulo">Modelo</span><span>{{ veiculo.modelo }}</span></div>
+        <div class="linha"><span class="rotulo">Ano</span><span>{{ veiculo.ano }}</span></div>
+        <div class="linha"><span class="rotulo">Quilometragem atual</span><span>{{ formatarKm(veiculo.quilometragemAtual) }}</span></div>
+      </mat-card-content>
+      <mat-card-actions class="acoes">
+        <button mat-stroked-button color="primary" (click)="editar()">Editar</button>
+        <button mat-stroked-button color="warn" (click)="excluir()">Excluir</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card-manutencoes">
+      <mat-card-content>
+        <div class="cabecalho-manutencoes">
+          <h2>Últimas manutenções</h2>
+          <a mat-icon-button [routerLink]="['/veiculos', veiculoId, 'manutencoes', 'novo']">
+            <mat-icon>add</mat-icon>
+          </a>
+        </div>
+
+        @if (manutencoes.length === 0) {
+          <p>Nenhuma manutenção registrada ainda.</p>
+        }
+
+        @for (m of (manutencoes | slice: 0:5); track m.id) {
+          <div class="item-manutencao" (click)="editarManutencao(m)">
+            <div class="linha-topo">
+              <strong>{{ m.nome }}</strong>
+              <span>{{ formatarValor(m.valor) }}</span>
+            </div>
+            <div class="linha-sub">
+              <span>{{ m.tipoManutencaoNome }}</span>
+              <span>{{ formatarData(m.dataRealizacao) }}</span>
+            </div>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

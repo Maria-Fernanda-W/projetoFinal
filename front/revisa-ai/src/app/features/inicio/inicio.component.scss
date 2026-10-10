@@ -1,0 +1,34 @@
+h4 {
+  margin: 0;
+}
+
+.item {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.veiculo {
+  display: block;
+  font-size: 0.75em;
+  color: #3f51b5;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.linha-topo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.linha-sub {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 0.85em;
+  margin-top: 2px;
+}

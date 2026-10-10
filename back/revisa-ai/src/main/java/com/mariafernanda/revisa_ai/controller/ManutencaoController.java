@@ -29,4 +29,26 @@ public class ManutencaoController {
     public ResponseEntity<List<ManutencaoRespostaDTO>> listarPorVeiculo(@PathVariable Long veiculoId) {
         return ResponseEntity.ok(service.listarPorVeiculo(veiculoId));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ManutencaoRespostaDTO> alterar(@PathVariable Long id,
+                                                         @Valid @RequestBody ManutencaoAlteracaoDTO dto,
+                                                         Authentication authentication) {
+        Long usuarioId = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(service.alterar(usuarioId, id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id, Authentication authentication) {
+        Long usuarioId = (Long) authentication.getPrincipal();
+        service.deletar(usuarioId, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ManutencaoRespostaDTO>> listarPorUsuario(@PathVariable Long usuarioId,
+                                                                        Authentication authentication) {
+        Long usuarioIdAutenticado = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(service.listarPorUsuario(usuarioIdAutenticado, usuarioId));
+    }
 }

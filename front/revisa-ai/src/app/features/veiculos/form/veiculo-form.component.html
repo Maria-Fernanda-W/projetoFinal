@@ -1,0 +1,67 @@
+<app-form-header
+  [titulo]="edicao ? 'Editar Veículo' : 'Cadastro Veículo'"
+  [voltarPara]="voltarPara">
+</app-form-header>
+
+<div class="container">
+  <form #form="ngForm" (ngSubmit)="salvar(form)">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput [(ngModel)]="nome" name="nome" required #nomeRef="ngModel">
+      @if (nomeRef.invalid && (nomeRef.touched || form.submitted)) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Placa</mat-label>
+      <input matInput [(ngModel)]="placa" name="placa" required #placaRef="ngModel">
+      @if (placaRef.invalid && (placaRef.touched || form.submitted)) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Marca</mat-label>
+      <input matInput [(ngModel)]="marca" name="marca" required #marcaRef="ngModel">
+      @if (marcaRef.invalid && (marcaRef.touched || form.submitted)) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Modelo</mat-label>
+      <input matInput [(ngModel)]="modelo" name="modelo" required #modeloRef="ngModel">
+      @if (modeloRef.invalid && (modeloRef.touched || form.submitted)) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ano</mat-label>
+      <input matInput type="number" [(ngModel)]="ano" name="ano" required min="1950" #anoRef="ngModel">
+      @if (anoRef.invalid && (anoRef.touched || form.submitted)) {
+        <mat-error>
+          @if (anoRef.errors?.['required']) { Campo obrigatório }
+          @if (anoRef.errors?.['min']) { Ano deve ser 1950 ou posterior }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    @if (!edicao) {
+      <mat-form-field appearance="outline">
+        <mat-label>Quilometragem atual</mat-label>
+        <input matInput type="number" [(ngModel)]="quilometragemInicial" name="quilometragemInicial" required min="0" #kmRef="ngModel">
+        @if (kmRef.invalid && (kmRef.touched || form.submitted)) {
+          <mat-error>Campo obrigatório</mat-error>
+        }
+      </mat-form-field>
+    }
+
+    @if (erro) {
+      <p class="erro">{{ erro }}</p>
+    }
+
+    <button mat-filled-button color="primary" type="submit">{{ edicao ? 'Salvar' : 'Cadastrar' }}</button>
+  </form>
+</div>

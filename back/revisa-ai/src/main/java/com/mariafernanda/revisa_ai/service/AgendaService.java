@@ -55,8 +55,8 @@ public class AgendaService {
         }
 
         Manutencao manutencao = manutencaoService.registrar(
-                agenda.getVeiculo(), agenda.getTipoManutencao(),
-                dto.dataRealizacao(), dto.quilometragem(), dto.observacoes());
+                agenda.getVeiculo(), agenda.getTipoManutencao(), dto.nome(), dto.dataRealizacao(),
+                dto.valor(), dto.quilometragem(), dto.localRealizado(), dto.observacoes());
 
         agenda.setManutencao(manutencao);
         agenda.setStatus(StatusAgenda.CONCLUIDA);

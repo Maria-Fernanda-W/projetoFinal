@@ -1,0 +1,20 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.erro {
+  color: #c0392b;
+  font-size: 0.9em;
+  margin: 0 0 8px;
+}
+
+.botoes {
+  display: flex;
+  gap: 8px;
+}

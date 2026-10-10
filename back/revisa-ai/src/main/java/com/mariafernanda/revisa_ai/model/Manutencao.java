@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -24,11 +25,20 @@ public class Manutencao {
     @JoinColumn(name = "tipo_manutencao_id", nullable = false)
     private TipoManutencao tipoManutencao;
 
+    @Column(nullable = false)
+    private String nome;
+
     @Column(name = "data_realizacao", nullable = false)
     private LocalDate dataRealizacao;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor;
+
+    @Column()
     private Integer quilometragem;
+
+    @Column(name = "local_realizado")
+    private String localRealizado;
 
     private String observacoes;
 }

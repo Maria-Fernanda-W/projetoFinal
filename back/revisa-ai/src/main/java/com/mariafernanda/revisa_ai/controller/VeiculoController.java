@@ -33,9 +33,17 @@ public class VeiculoController {
         return ResponseEntity.ok(veiculoService.alterar(usuarioId, id, dto));
     }
 
-    @GetMapping("/meus")
-    public ResponseEntity<List<VeiculoRespostaDTO>> listarMeus(Authentication authentication) {
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<VeiculoRespostaDTO>> listarPorUsuario(@PathVariable Long usuarioId,
+                                                                     Authentication authentication) {
+        Long usuarioIdAutenticado = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(veiculoService.listarPorUsuario(usuarioIdAutenticado, usuarioId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id, Authentication authentication) {
         Long usuarioId = (Long) authentication.getPrincipal();
-        return ResponseEntity.ok(veiculoService.listarMeusVeiculos(usuarioId));
+        veiculoService.deletar(usuarioId, id);
+        return ResponseEntity.noContent().build();
     }
 }

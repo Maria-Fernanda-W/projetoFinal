@@ -1,0 +1,52 @@
+<div class="shell">
+  <mat-toolbar color="primary" class="topo">
+    <button mat-icon-button><mat-icon>person</mat-icon></button>
+    <span class="titulo">{{ titulo }}</span>
+    <button mat-icon-button [matMenuTriggerFor]="menuUsuario">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menuUsuario="matMenu">
+      <button mat-menu-item (click)="sair()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <div class="conteudo">
+    <router-outlet></router-outlet>
+  </div>
+
+  <button mat-fab color="primary" class="fab" [matMenuTriggerFor]="menuAdicionar">
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-menu #menuAdicionar="matMenu">
+    <button mat-menu-item (click)="novoVeiculo()">
+      <mat-icon>directions_car</mat-icon>
+      <span>Veículo</span>
+    </button>
+    <button mat-menu-item (click)="novaManutencao()">
+      <mat-icon>build</mat-icon>
+      <span>Manutenção</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>calendar_month</mat-icon>
+      <span>Agenda</span>
+    </button>
+  </mat-menu>
+
+  <nav class="tabs">
+    <a routerLink="/inicio" routerLinkActive="ativo">
+      <mat-icon>home</mat-icon>
+      <span class="rotulo">Início</span>
+    </a>
+    <a routerLink="/veiculos" routerLinkActive="ativo">
+      <mat-icon>directions_car</mat-icon>
+      <span class="rotulo">Veículos</span>
+    </a>
+    <a routerLink="/agenda" routerLinkActive="ativo">
+      <mat-icon>calendar_month</mat-icon>
+      <span class="rotulo">Agenda</span>
+    </a>
+  </nav>
+</div>
