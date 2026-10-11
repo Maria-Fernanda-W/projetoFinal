@@ -65,6 +65,19 @@ public class TipoManutencaoService {
                 .toList();
     }
 
+    public TipoManutencao buscarDisponivel(Long id, Long usuarioId) {
+        TipoManutencao tipo = repository.findById(id)
+                .orElseThrow(() -> new TipoManutencaoNaoEncontradoException(id));
+
+        boolean ehPadrao = tipo.getUsuario() == null;
+        boolean ehDoUsuario = !ehPadrao && tipo.getUsuario().getId().equals(usuarioId);
+
+        if (!ehPadrao && !ehDoUsuario) {
+            throw new TipoManutencaoNaoPertenceAoUsuarioException(id);
+        }
+        return tipo;
+    }
+
     private TipoManutencaoRespostaDTO criarCopiaPersonalizada(Long origemPadraoId, Long usuarioId, TipoManutencaoDTO dto) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(usuarioId));

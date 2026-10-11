@@ -26,8 +26,10 @@ public class ManutencaoController {
     }
 
     @GetMapping("/veiculo/{veiculoId}")
-    public ResponseEntity<List<ManutencaoRespostaDTO>> listarPorVeiculo(@PathVariable Long veiculoId) {
-        return ResponseEntity.ok(service.listarPorVeiculo(veiculoId));
+    public ResponseEntity<List<ManutencaoRespostaDTO>> listarPorVeiculo(@PathVariable Long veiculoId,
+                                                                        Authentication authentication) {
+        Long usuarioId = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(service.listarPorVeiculo(usuarioId, veiculoId));
     }
 
     @PutMapping("/{id}")

@@ -16,7 +16,7 @@ public class AgendaService {
 
     private final AgendaRepository agendaRepository;
     private final VeiculoRepository veiculoRepository;
-    private final TipoManutencaoRepository tipoManutencaoRepository;
+    private final TipoManutencaoService tipoManutencaoService;
     private final ManutencaoService manutencaoService;
     private final VeiculoService veiculoService;
 
@@ -30,8 +30,7 @@ public class AgendaService {
 
         veiculoService.validarPropriedade(veiculo, usuarioId);
 
-        TipoManutencao tipo = tipoManutencaoRepository.findById(dto.tipoManutencaoId())
-                .orElseThrow(() -> new TipoManutencaoNaoEncontradoException(dto.tipoManutencaoId()));
+        TipoManutencao tipo = tipoManutencaoService.buscarDisponivel(dto.tipoManutencaoId(), usuarioId);
 
         Agenda agenda = new Agenda();
         agenda.setVeiculo(veiculo);
@@ -64,7 +63,12 @@ public class AgendaService {
         return paraDTO(agendaRepository.save(agenda));
     }
 
-    public List<AgendaRespostaDTO> listarPendentesPorVeiculo(Long veiculoId) {
+    public List<AgendaRespostaDTO> listarPendentesPorVeiculo(Long usuarioId, Long veiculoId) {
+        Veiculo veiculo = veiculoRepository.findById(veiculoId)
+                .orElseThrow(() -> new VeiculoNaoEncontradoException(veiculoId));
+
+        veiculoService.validarPropriedade(veiculo, usuarioId);
+
         return agendaRepository.findByVeiculoIdAndStatus(veiculoId, StatusAgenda.PENDENTE).stream()
                 .map(this::paraDTO)
                 .toList();

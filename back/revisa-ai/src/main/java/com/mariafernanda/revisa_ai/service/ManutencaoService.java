@@ -19,7 +19,7 @@ public class ManutencaoService {
 
     private final ManutencaoRepository manutencaoRepository;
     private final VeiculoRepository veiculoRepository;
-    private final TipoManutencaoRepository tipoManutencaoRepository;
+    private final TipoManutencaoService tipoManutencaoService;
     private final HistoricoQuilometragemRepository historicoRepository;
     private final VeiculoService veiculoService;
 
@@ -29,8 +29,7 @@ public class ManutencaoService {
 
         veiculoService.validarPropriedade(veiculo, usuarioId);
 
-        TipoManutencao tipo = tipoManutencaoRepository.findById(dto.tipoManutencaoId())
-                .orElseThrow(() -> new TipoManutencaoNaoEncontradoException(dto.tipoManutencaoId()));
+        TipoManutencao tipo = tipoManutencaoService.buscarDisponivel(dto.tipoManutencaoId(), usuarioId);
 
         Manutencao salva = registrar(veiculo, tipo, dto.nome(), dto.dataRealizacao(),
                 dto.valor(), dto.quilometragem(), dto.localRealizado(), dto.observacoes());
@@ -78,8 +77,7 @@ public class ManutencaoService {
 
         veiculoService.validarPropriedade(manutencao.getVeiculo(), usuarioId);
 
-        TipoManutencao tipo = tipoManutencaoRepository.findById(dto.tipoManutencaoId())
-                .orElseThrow(() -> new TipoManutencaoNaoEncontradoException(dto.tipoManutencaoId()));
+        TipoManutencao tipo = tipoManutencaoService.buscarDisponivel(dto.tipoManutencaoId(), usuarioId);
 
         manutencao.setTipoManutencao(tipo);
         manutencao.setNome(dto.nome());
@@ -100,7 +98,12 @@ public class ManutencaoService {
         manutencaoRepository.delete(manutencao);
     }
 
-    public List<ManutencaoRespostaDTO> listarPorVeiculo(Long veiculoId) {
+    public List<ManutencaoRespostaDTO> listarPorVeiculo(Long usuarioId, Long veiculoId) {
+        Veiculo veiculo = veiculoRepository.findById(veiculoId)
+                .orElseThrow(() -> new VeiculoNaoEncontradoException(veiculoId));
+
+        veiculoService.validarPropriedade(veiculo, usuarioId);
+
         return manutencaoRepository.findByVeiculoIdOrderByDataRealizacaoDesc(veiculoId).stream()
                 .map(this::paraDTO)
                 .toList();

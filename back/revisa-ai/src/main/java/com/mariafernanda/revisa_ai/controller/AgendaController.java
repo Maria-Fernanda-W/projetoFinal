@@ -34,7 +34,9 @@ public class AgendaController {
     }
 
     @GetMapping("/veiculo/{veiculoId}")
-    public ResponseEntity<List<AgendaRespostaDTO>> listarPendentes(@PathVariable Long veiculoId) {
-        return ResponseEntity.ok(service.listarPendentesPorVeiculo(veiculoId));
+    public ResponseEntity<List<AgendaRespostaDTO>> listarPendentes(@PathVariable Long veiculoId,
+                                                                   Authentication authentication) {
+        Long usuarioId = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(service.listarPendentesPorVeiculo(usuarioId, veiculoId));
     }
 }
